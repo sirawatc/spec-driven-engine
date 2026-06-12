@@ -1,0 +1,12 @@
+{{define "content"}}
+<a href="/dashboard/{{.Version}}">← Overview</a>
+<h2>Systems Registry</h2>
+<table>
+  <thead><tr><th>systemCode</th><th>Port</th><th>Description</th></tr></thead>
+  <tbody>
+  {{range $code, $def := .Systems}}
+    <tr><td>{{$code}}</td><td>{{$def.Port}}</td><td>{{$def.Description}}</td></tr>
+  {{end}}
+  </tbody>
+</table>
+{{end}}

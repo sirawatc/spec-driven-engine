@@ -1,0 +1,55 @@
+{{define "content"}}
+<a href="/dashboard/{{.Version}}/endpoints">← Endpoints</a>
+<h2>{{.Endpoint.Method}} {{.Endpoint.Path}}</h2>
+<p>{{.Endpoint.Description}}</p>
+
+<h3>Request Fields</h3>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+  <tbody>
+  {{range $name, $def := .Endpoint.Request.Fields}}
+    <tr><td>{{$name}}</td><td>{{$def.Type}}</td><td>{{$def.Required}}</td><td>{{$def.Description}}</td></tr>
+  {{end}}
+  </tbody>
+</table>
+
+<h3>Request Transform (HTTP → TCP)</h3>
+<table>
+  <thead><tr><th>Backend Field</th><th>Length</th><th>Value / Template</th><th>Align</th><th>Pad</th></tr></thead>
+  <tbody>
+  {{range .Endpoint.Transform.Request}}
+    <tr><td>{{.Name}}</td><td>{{.Length}}</td><td><code>{{.Value}}</code></td><td>{{.Align}}</td><td>"{{.Pad}}"</td></tr>
+  {{end}}
+  </tbody>
+</table>
+
+<h3>Response Transform (TCP → HTTP)</h3>
+<h4>Backend Response Fields (by offset)</h4>
+<table>
+  <thead><tr><th>Backend Field</th><th>Length</th></tr></thead>
+  <tbody>
+  {{range .Endpoint.Transform.Response.Fields}}
+    <tr><td>{{.Name}}</td><td>{{.Length}}</td></tr>
+  {{end}}
+  </tbody>
+</table>
+<h4>Mapping</h4>
+<table>
+  <thead><tr><th>HTTP Response Key</th><th>Source Template</th></tr></thead>
+  <tbody>
+  {{range $key, $tmpl := .Endpoint.Transform.Response.Mapping}}
+    <tr><td>{{$key}}</td><td><code>{{$tmpl}}</code></td></tr>
+  {{end}}
+  </tbody>
+</table>
+
+<h3>Response Codes</h3>
+<table>
+  <thead><tr><th>Code</th><th>Description</th></tr></thead>
+  <tbody>
+  {{range .Endpoint.ResponseCodes}}
+    <tr><td>{{.Code}}</td><td>{{.Description}}</td></tr>
+  {{end}}
+  </tbody>
+</table>
+{{end}}

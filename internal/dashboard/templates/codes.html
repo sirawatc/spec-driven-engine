@@ -1,0 +1,18 @@
+{{define "content"}}
+<a href="/dashboard/{{.Version}}">← Overview</a>
+<h2>Response Code Table</h2>
+<table>
+  <thead><tr><th>Engine Code</th><th>Type</th><th>HTTP Status</th><th>Description</th><th>Backend Code</th></tr></thead>
+  <tbody>
+  {{range .Codes}}
+    <tr>
+      <td>{{.EngineCode}}</td>
+      <td>{{.Type}}</td>
+      <td>{{.HTTPStatus}}</td>
+      <td>{{.Description}}</td>
+      <td>{{.CBSCode}}</td>
+    </tr>
+  {{end}}
+  </tbody>
+</table>
+{{end}}
