@@ -1,0 +1,16 @@
+{{define "content"}}
+<a href="/dashboard/{{.Version}}">← Overview</a>
+<h2>Endpoints</h2>
+<table>
+  <thead><tr><th>Method</th><th>Path</th><th>Summary</th></tr></thead>
+  <tbody>
+  {{range .Endpoints}}
+    <tr>
+      <td>{{.Method}}</td>
+      <td><a href="/dashboard/{{$.Version}}/endpoints?path={{.Path}}&method={{.Method}}">{{.Path}}</a></td>
+      <td>{{.Summary}}</td>
+    </tr>
+  {{end}}
+  </tbody>
+</table>
+{{end}}

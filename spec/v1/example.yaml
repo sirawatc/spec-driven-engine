@@ -1,0 +1,62 @@
+version: "1.0.0"
+name: "Service Engine - Example Domain"
+description: "Resource query operations for the PoC. Demonstrates the engine concept: one YAML spec drives the HTTP server, TCP transformation, and dashboard."
+
+systems:
+  SERVICE_A:
+    port: 9001
+    description: "backend service TCP port"
+
+response_codes:
+  22001:
+    type: business_error
+    http_status: 200
+    description: "No records found"
+    backend_code: "SVC_ERR_001"
+
+endpoints:
+  - path: /example/query
+    method: POST
+    summary: "Inquire resource value"
+    description: "Returns the current balance and currency for a given resource identifier. The request is forwarded to backend via TCP socket on the port registered for the provided systemCode."
+
+    request:
+      fields:
+        systemCode:
+          type: string
+          required: true
+          description: "Identifies the backend service to call. Must be registered in the systems section."
+        resourceId:
+          type: string
+          required: true
+          description: "The resource identifier to query. Must be a valid backend resource identifier."
+
+    transform:
+      request:
+        - name: MSG_TYPE
+          length: 4
+          value: "0200"
+          align: left
+          pad: " "
+        - name: RESOURCE_ID
+          length: 16
+          value: "{{request.body.resourceId}}"
+          align: left
+          pad: " "
+
+      response:
+        fields:
+          - name: ResponseCode
+            length: 15
+          - name: FIELD_A
+            length: 15
+          - name: FIELD_B
+            length: 3
+
+        mapping:
+          balance: "{{cbs.FIELD_A}}"
+          currency: "{{cbs.FIELD_B}}"
+
+    response_codes:
+      - code: 22001
+        description: "Resource not found in backend"

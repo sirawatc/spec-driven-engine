@@ -1,0 +1,16 @@
+{{define "content"}}
+<p>Service Engine — spec versions loaded:</p>
+<table>
+  <thead><tr><th>Version</th><th>Name</th><th>Spec Version</th><th>Description</th></tr></thead>
+  <tbody>
+  {{range .Rows}}
+    <tr>
+      <td><a href="/dashboard/{{.Key}}">{{.Key}}</a></td>
+      <td>{{.Name}}</td>
+      <td>{{.Version}}</td>
+      <td>{{.Description}}</td>
+    </tr>
+  {{end}}
+  </tbody>
+</table>
+{{end}}

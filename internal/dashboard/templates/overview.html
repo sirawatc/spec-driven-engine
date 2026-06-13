@@ -1,0 +1,10 @@
+{{define "content"}}
+<p><strong>Spec version:</strong> {{.Spec.Version}}</p>
+<p><strong>Description:</strong> {{.Spec.Description}}</p>
+<p><strong>Loaded at:</strong> {{.LoadedAt}}</p>
+<nav>
+  <a href="/dashboard/{{.Version}}/endpoints">Endpoints</a>
+  <a href="/dashboard/{{.Version}}/systems">Systems</a>
+  <a href="/dashboard/{{.Version}}/codes">Response Codes</a>
+</nav>
+{{end}}

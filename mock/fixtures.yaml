@@ -1,0 +1,34 @@
+# Mock backend responses for the PoC.
+# First matching fixture wins — more specific matches must come before general ones.
+
+# Business error: specific account triggers backend internal error
+- match:
+    RESOURCE_ID: "ERROR_ACCOUNT"
+  response:
+    ResponseCode: "BACKEND_ERR_001"
+    FIELD_A: "000000000000000"
+    FIELD_B: "   "
+
+# Business error: specific account simulates timeout
+- match:
+    RESOURCE_ID: "TIMEOUT_ACCOUNT"
+  response:
+    ResponseCode: "BACKEND_ERR_003"
+    FIELD_A: "000000000000000"
+    FIELD_B: "   "
+
+# Business error: no records found (SVC_ERR)
+- match:
+    RESOURCE_ID: "NOTFOUND_ACCOUNT"
+  response:
+    ResponseCode: "SVC_ERR_001"
+    FIELD_A: "000000000000000"
+    FIELD_B: "   "
+
+# Happy path: any other resource identifier returns success
+- match:
+    MSG_TYPE: "0200"
+  response:
+    ResponseCode: "OK"
+    FIELD_A: "000000012345.67"
+    FIELD_B: "THB"
